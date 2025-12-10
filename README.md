@@ -9,9 +9,9 @@ Work in progress :)
 ## Goals
 
 - [x] Initialize project
-- [] Implement API
-- [] Containerize with Docker
-- [] Deploy to cloud
+- [ ] Implement API
+- [ ] Containerize with Docker
+- [ ] Deploy to cloud
 
 ## Tech Stack
 
