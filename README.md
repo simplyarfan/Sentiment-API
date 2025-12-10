@@ -6,7 +6,7 @@ A production-ready REST API for analyzing text sentiment using transformer model
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)
 ![Python](https://img.shields.io/badge/python-3.11-blue.svg)
 
-## 🚀 Features
+## Features
 
 - **Fast sentiment analysis** using DistilBERT transformer model
 - **RESTful API** with automatic interactive documentation
@@ -15,14 +15,14 @@ A production-ready REST API for analyzing text sentiment using transformer model
 - **Input validation** with Pydantic models
 - **Sub-100ms inference** after model warm-up
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend:** FastAPI (async Python web framework)
 - **ML Model:** DistilBERT via HuggingFace Transformers
 - **Containerization:** Docker
 - **API Documentation:** Auto-generated with Swagger UI
 
-## 📦 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Docker Desktop installed
@@ -64,7 +64,7 @@ curl -X POST "http://localhost:8000/analyze" \
 }
 ```
 
-## 📊 API Endpoints
+## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -72,7 +72,7 @@ curl -X POST "http://localhost:8000/analyze" \
 | POST | `/analyze` | Analyze text sentiment |
 | GET | `/health` | Kubernetes-style health endpoint |
 
-## 🏗️ Project Structure
+## Project Structure
 ```
 sentiment-api/
 ├── src/
@@ -84,7 +84,7 @@ sentiment-api/
 └── README.md
 ```
 
-## 🧪 Development
+## Development
 
 ### Local Setup (without Docker)
 ```bash
@@ -104,21 +104,21 @@ uvicorn src.main:app --reload
 pytest tests/ -v
 ```
 
-## 🐳 Docker Details
+## Docker Details
 
 - **Base Image:** `python:3.11-slim`
 - **Image Size:** ~1.2GB (includes PyTorch + transformers)
 - **Health Check:** Configured for production monitoring
 - **Multi-stage optimized** for faster rebuilds
 
-## 📈 Performance
+## Performance
 
 - **First request:** 30-60s (model download)
 - **Subsequent requests:** < 100ms
 - **Memory usage:** ~500MB (model in RAM)
 - **Concurrent requests:** 10-20 (CPU-bound)
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - [ ] GPU support for faster inference
 - [ ] Model caching layer (Redis)
@@ -128,17 +128,17 @@ pytest tests/ -v
 - [ ] Multiple model support
 - [ ] Kubernetes deployment configs
 
-## 📝 License
+## License
 
 MIT License - feel free to use for your projects!
 
-## 👤 Author
+## Author
 
 **Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Profile](https://linkedin.com/in/yourprofile)
+- GitHub: [@simplyarfan](https://github.com/simplyarfan)
+- LinkedIn: [Syed Arfan Hussain](https://linkedin.com/in/syedarfan)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [HuggingFace](https://huggingface.co/) for the DistilBERT model
 - [FastAPI](https://fastapi.tiangolo.com/) for the excellent framework
