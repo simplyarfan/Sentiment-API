@@ -63,30 +63,28 @@ A production-ready sentiment analysis API built with FastAPI, featuring multi-se
 ## Architecture
 ### System Overview
 ```mermaid
-%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#4fc3f7','primaryTextColor':'#000','primaryBorderColor':'#000','lineColor':'#000','secondaryColor':'#ffb74d','tertiaryColor':'#81c784'}}}%%
+%%{init: {'theme':'dark', 'themeVariables': { 'primaryColor':'#4fc3f7','primaryTextColor':'#fff','primaryBorderColor':'#fff','lineColor':'#ffffff','secondaryColor':'#ffb74d','tertiaryColor':'#81c784'}}}%%
 graph TB
     Client[Client Browser]
     Nginx[nginx Load Balancer<br/>Port 80]
-    API[⚡ FastAPI Application<br/>Port 8000]
-    Redis[(Redis Cache<br/>Port 6379<br/>2ms response)]
-    Postgres[(PostgreSQL<br/>Port 5432<br/>Persistent Storage)]
-    
+    API[FastAPI Application<br/>Port 8000]
+    Redis[(Redis Cache<br/>Port 6379)]
+    Postgres[(PostgreSQL<br/>Port 5432)]
+
     Client -->|HTTP Request| Nginx
     Nginx -->|Proxy| API
-    API -->|1. Check Cache| Redis
-    Redis -->|Cache Hit: Return| API
-    API -->|2. Cache Miss| API
-    API -->|3. Run ML Model| API
-    API -->|4. Store Result| Postgres
-    API -->|5. Cache Result| Redis
+    API -->|Check Cache| Redis
+    Redis -.->|Cache Hit| API
+    API -->|Store Result| Postgres
+    API -->|Cache Result| Redis
     API -->|Response| Nginx
     Nginx -->|Response| Client
-    
-    style Client fill:#4fc3f7,stroke:#000,stroke-width:2px,color:#000
-    style Nginx fill:#ffb74d,stroke:#000,stroke-width:2px,color:#000
-    style API fill:#81c784,stroke:#000,stroke-width:2px,color:#000
-    style Redis fill:#e57373,stroke:#000,stroke-width:2px,color:#000
-    style Postgres fill:#ba68c8,stroke:#000,stroke-width:2px,color:#000
+
+    style Client fill:#4fc3f7,stroke:#fff,stroke-width:2px,color:#000
+    style Nginx fill:#ffb74d,stroke:#fff,stroke-width:2px,color:#000
+    style API fill:#81c784,stroke:#fff,stroke-width:2px,color:#000
+    style Redis fill:#e57373,stroke:#fff,stroke-width:2px,color:#fff
+    style Postgres fill:#ba68c8,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
 ### Request Flow
@@ -120,47 +118,47 @@ sequenceDiagram
 
 ### Container Architecture
 ```mermaid
-%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#4fc3f7','primaryTextColor':'#000','primaryBorderColor':'#000','lineColor':'#000'}}}%%
+%%{init: {'theme':'dark', 'themeVariables': { 'primaryColor':'#4fc3f7','primaryTextColor':'#fff','primaryBorderColor':'#fff','lineColor':'#ffffff'}}}%%
 graph LR
     subgraph "Docker Compose"
-        N[nginx:alpine15MB]
-        A[sentiment-api1.2GB]
-        R[redis:7-alpine15MB]
-        P[postgres:15-alpine240MB]
+        N[nginx:alpine<br/>15MB]
+        A[sentiment-api<br/>1.2GB]
+        R[redis:7-alpine<br/>15MB]
+        P[postgres:15-alpine<br/>240MB]
     end
-    
+
     N -.->|depends_on| A
     A -.->|depends_on| R
     A -.->|depends_on| P
-    
-    V1[(postgres_dataVolume)]
+
+    V1[(postgres_data<br/>Volume)]
     P -.->|persists to| V1
-    
-    style N fill:#ffb74d,stroke:#000,stroke-width:2px,color:#000
-    style A fill:#81c784,stroke:#000,stroke-width:2px,color:#000
-    style R fill:#e57373,stroke:#000,stroke-width:2px,color:#000
-    style P fill:#ba68c8,stroke:#000,stroke-width:2px,color:#000
-    style V1 fill:#4fc3f7,stroke:#000,stroke-width:2px,color:#000
+
+    style N fill:#ffb74d,stroke:#fff,stroke-width:2px,color:#000
+    style A fill:#81c784,stroke:#fff,stroke-width:2px,color:#000
+    style R fill:#e57373,stroke:#fff,stroke-width:2px,color:#fff
+    style P fill:#ba68c8,stroke:#fff,stroke-width:2px,color:#fff
+    style V1 fill:#4fc3f7,stroke:#fff,stroke-width:2px,color:#000
 ```
 
 ### Performance Comparison
 ```mermaid
-%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#4fc3f7','primaryTextColor':'#000','primaryBorderColor':'#000','lineColor':'#000'}}}%%
+%%{init: {'theme':'dark', 'themeVariables': { 'primaryColor':'#4fc3f7','primaryTextColor':'#fff','primaryBorderColor':'#fff','lineColor':'#ffffff'}}}%%
 graph TD
     subgraph "Without Cache"
-        A1[Request 1: 100ms] --> A2[Request 2: 100ms]
-        A2 --> A3[Request 3: 100ms]
-        A3 --> A4[1000 requests: 100 seconds]
+        A1[Request 1<br/>100ms] --> A2[Request 2<br/>100ms]
+        A2 --> A3[Request 3<br/>100ms]
+        A3 --> A4[1000 requests<br/>100 seconds]
     end
-    
+
     subgraph "With Redis Cache"
-        B1[Request 1: 100msCache Miss] --> B2[Request 2: 2msCache Hit]
-        B2 --> B3[Request 3: 2msCache Hit]
-        B3 --> B4[1000 requests: 2.1 seconds ⚡]
+        B1[Request 1: 100ms<br/>Cache Miss] --> B2[Request 2: 2ms<br/>Cache Hit]
+        B2 --> B3[Request 3: 2ms<br/>Cache Hit]
+        B3 --> B4[1000 requests<br/>2.1 seconds]
     end
-    
-    style A4 fill:#e57373,stroke:#000,stroke-width:2px,color:#000
-    style B4 fill:#81c784,stroke:#000,stroke-width:2px,color:#000
+
+    style A4 fill:#e57373,stroke:#fff,stroke-width:2px,color:#fff
+    style B4 fill:#81c784,stroke:#fff,stroke-width:2px,color:#000
 ```
 
 ---
@@ -599,7 +597,7 @@ MIT License - feel free to use this project for learning or portfolio purposes.
 
 **Syed Arfan Hussain**
 - GitHub: [@simplyarfan](https://github.com/simplyarfan)
-- LinkedIn: [Syed Arfan Hussain](https://linkedin.com/in/syedarfan)
+- LinkedIn: [Syed Arfan Hussain](https://www.linkedin.com/in/syedarfan)
 
 ---
 
