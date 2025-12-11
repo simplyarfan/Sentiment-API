@@ -1,14 +1,12 @@
 # GitHub Actions Workflow for Frontend Deployment to GitHub Pages
 # Automatically deploys the React frontend when changes are pushed to main
+# ONLY deploys if backend tests pass first
 
 name: Deploy Frontend to GitHub Pages
 
 on:
   push:
     branches: [main]
-    paths:
-      - 'frontend/**'
-      - '.github/workflows/deploy-frontend.yml'
   workflow_dispatch: # Allow manual deployment
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -23,8 +21,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Run backend tests first - deployment depends on this passing
+  test:
+    name: Run Backend Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          pytest tests/ -v --tb=short
+
   build:
     name: Build Frontend
+    needs: test  # Only build if tests pass
     runs-on: ubuntu-latest
 
     steps:
@@ -55,7 +77,7 @@ jobs:
 
   deploy:
     name: Deploy to GitHub Pages
-    needs: build
+    needs: build  # Build already depends on test
     runs-on: ubuntu-latest
     environment:
       name: github-pages
