@@ -9,9 +9,35 @@ app_port: 7860
 
 # Sentiment Analysis API
 
-![Tests](https://github.com/simplyarfan/sentiment-api/actions/workflows/test.yml/badge.svg)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-brightgreen?style=for-the-badge&logo=github)](https://simplyarfan.github.io/Sentiment-API/)
+[![API Status](https://img.shields.io/badge/API-Hugging%20Face-yellow?style=for-the-badge&logo=huggingface)](https://huggingface.co/spaces/simplyarfan/sentiment-api)
 
-A production-ready sentiment analysis API built with FastAPI, featuring multi-service architecture with PostgreSQL, Redis caching, and nginx load balancing. Analyzes text sentiment (POSITIVE/NEGATIVE) with 99%+ accuracy using DistilBERT transformer model.
+![Tests](https://github.com/simplyarfan/Sentiment-API/actions/workflows/test.yml/badge.svg)
+![Deploy](https://github.com/simplyarfan/Sentiment-API/actions/workflows/deploy-frontend.yml/badge.svg)
+
+### Tech Stack
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat-square&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-7-DC382D?style=flat-square&logo=redis&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Hugging Face](https://img.shields.io/badge/Hugging%20Face-Spaces-FFD21E?style=flat-square&logo=huggingface&logoColor=black)
+
+---
+
+A production-ready sentiment analysis API built with FastAPI, featuring multi-service architecture with PostgreSQL, Redis caching, and a modern React frontend. Analyzes text sentiment (POSITIVE/NEGATIVE) with 99%+ accuracy using DistilBERT transformer model.
+
+## Live Demo
+
+**Try it now:** [https://simplyarfan.github.io/Sentiment-API/](https://simplyarfan.github.io/Sentiment-API/)
+
+| Component | URL |
+|-----------|-----|
+| **Frontend** | [simplyarfan.github.io/Sentiment-API](https://simplyarfan.github.io/Sentiment-API/) |
+| **API** | [huggingface.co/spaces/simplyarfan/sentiment-api](https://huggingface.co/spaces/simplyarfan/sentiment-api) |
+| **API Docs** | [simplyarfan-sentiment-api.hf.space/docs](https://simplyarfan-sentiment-api.hf.space/docs) |
 
 ## Features
 
@@ -143,14 +169,18 @@ graph TD
 
 | Category | Technology | Purpose |
 |----------|-----------|---------|
+| **Frontend** | React 18 + TypeScript | Modern, type-safe UI |
+| **Styling** | Tailwind CSS | Utility-first CSS framework |
 | **API Framework** | FastAPI | High-performance async API |
-| **ML Model** | DistilBERT | Sentiment classification |
+| **ML Model** | DistilBERT (Hugging Face) | Sentiment classification |
 | **Database** | PostgreSQL 15 | Persistent data storage |
 | **Cache** | Redis 7 | Sub-millisecond lookups |
-| **Load Balancer** | nginx | Reverse proxy & distribution |
 | **Containerization** | Docker + Compose | Service orchestration |
-| **Testing** | pytest | Automated unit testing |
-| **CI/CD** | GitHub Actions | Automated testing pipeline |
+| **Frontend Hosting** | GitHub Pages | Static site hosting |
+| **API Hosting** | Hugging Face Spaces | ML-optimized container hosting |
+| **Database Hosting** | Render | Managed PostgreSQL & Redis |
+| **Testing** | pytest + Vitest | Backend & frontend testing |
+| **CI/CD** | GitHub Actions | Automated testing & deployment |
 
 ---
 
@@ -319,16 +349,58 @@ services:
 
 ## Deployment
 
+### Live Production Environment
+
+The application is deployed and running:
+
+| Service | Platform | URL |
+|---------|----------|-----|
+| **Frontend** | GitHub Pages | [simplyarfan.github.io/Sentiment-API](https://simplyarfan.github.io/Sentiment-API/) |
+| **API** | Hugging Face Spaces | [simplyarfan-sentiment-api.hf.space](https://simplyarfan-sentiment-api.hf.space) |
+| **Database** | Render PostgreSQL | Managed cloud database |
+| **Cache** | Render Redis | Managed Redis instance |
+
+### Architecture
+```
+┌─────────────────────────────────────────────────────────────┐
+│  GitHub Pages (Frontend)                                     │
+│  React + TypeScript + Tailwind CSS                          │
+│  https://simplyarfan.github.io/Sentiment-API/               │
+└─────────────────────────────────────────────────────────────┘
+                           │
+                           ▼ API Calls
+┌─────────────────────────────────────────────────────────────┐
+│  Hugging Face Spaces (API)                                   │
+│  FastAPI + DistilBERT (2GB RAM, Docker)                     │
+│  https://simplyarfan-sentiment-api.hf.space                 │
+└─────────────────────────────────────────────────────────────┘
+                           │
+              ┌────────────┴────────────┐
+              ▼                         ▼
+┌──────────────────────┐    ┌──────────────────────┐
+│  Render PostgreSQL   │    │  Render Redis        │
+│  Persistent Storage  │    │  Caching Layer       │
+└──────────────────────┘    └──────────────────────┘
+```
+
 ### Local Development
 ```bash
 docker-compose up
 ```
 
-### Production (Coming Soon)
-- AWS ECS/Fargate deployment
-- CloudWatch monitoring
-- Auto-scaling configuration
-- SSL/TLS certificates
+### Deploy Your Own
+
+**Frontend (GitHub Pages):**
+1. Fork this repository
+2. Enable GitHub Pages in Settings
+3. Set `VITE_API_BASE_URL` in Actions variables
+4. Push to trigger deployment
+
+**API (Hugging Face Spaces):**
+1. Create a Space at [huggingface.co/spaces](https://huggingface.co/spaces)
+2. Select Docker SDK
+3. Push code: `git push https://huggingface.co/spaces/YOUR_USERNAME/sentiment-api main`
+4. Add `DATABASE_URL` and `REDIS_URL` as secrets
 
 ---
 
