@@ -28,6 +28,7 @@ A production-ready sentiment analysis API built with FastAPI, featuring multi-se
 ## Architecture
 ### System Overview
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#4fc3f7','primaryTextColor':'#000','primaryBorderColor':'#000','lineColor':'#000','secondaryColor':'#ffb74d','tertiaryColor':'#81c784'}}}%%
 graph TB
     Client[Client Browser]
     Nginx[nginx Load Balancer<br/>Port 80]
@@ -46,11 +47,11 @@ graph TB
     API -->|Response| Nginx
     Nginx -->|Response| Client
     
-    style Client fill:#e1f5ff
-    style Nginx fill:#fff3e0
-    style API fill:#e8f5e9
-    style Redis fill:#ffebee
-    style Postgres fill:#f3e5f5
+    style Client fill:#4fc3f7,stroke:#000,stroke-width:2px,color:#000
+    style Nginx fill:#ffb74d,stroke:#000,stroke-width:2px,color:#000
+    style API fill:#81c784,stroke:#000,stroke-width:2px,color:#000
+    style Redis fill:#e57373,stroke:#000,stroke-width:2px,color:#000
+    style Postgres fill:#ba68c8,stroke:#000,stroke-width:2px,color:#000
 ```
 
 ### Request Flow
@@ -84,6 +85,7 @@ sequenceDiagram
 
 ### Container Architecture
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#4fc3f7','primaryTextColor':'#000','primaryBorderColor':'#000','lineColor':'#000'}}}%%
 graph LR
     subgraph "Docker Compose"
         N[nginx:alpine15MB]
@@ -99,15 +101,16 @@ graph LR
     V1[(postgres_dataVolume)]
     P -.->|persists to| V1
     
-    style N fill:#fff3e0
-    style A fill:#e8f5e9
-    style R fill:#ffebee
-    style P fill:#f3e5f5
-    style V1 fill:#e0f2f1
+    style N fill:#ffb74d,stroke:#000,stroke-width:2px,color:#000
+    style A fill:#81c784,stroke:#000,stroke-width:2px,color:#000
+    style R fill:#e57373,stroke:#000,stroke-width:2px,color:#000
+    style P fill:#ba68c8,stroke:#000,stroke-width:2px,color:#000
+    style V1 fill:#4fc3f7,stroke:#000,stroke-width:2px,color:#000
 ```
 
 ### Performance Comparison
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#4fc3f7','primaryTextColor':'#000','primaryBorderColor':'#000','lineColor':'#000'}}}%%
 graph TD
     subgraph "Without Cache"
         A1[Request 1: 100ms] --> A2[Request 2: 100ms]
@@ -121,8 +124,8 @@ graph TD
         B3 --> B4[1000 requests: 2.1 seconds ⚡]
     end
     
-    style A4 fill:#ffcdd2
-    style B4 fill:#c8e6c9
+    style A4 fill:#e57373,stroke:#000,stroke-width:2px,color:#000
+    style B4 fill:#81c784,stroke:#000,stroke-width:2px,color:#000
 ```
 
 ---
@@ -351,7 +354,7 @@ sentiment-api/
 1. **User sends request** → nginx (port 80)
 2. **nginx forwards** → FastAPI (port 8000)
 3. **FastAPI checks cache** → Redis
-   - **Cache HIT**: Return cached result (2ms) ✅
+   - **Cache HIT**: Return cached result (2ms)
    - **Cache MISS**: Continue to step 4
 4. **Run ML model** → DistilBERT inference (100ms)
 5. **Store in database** → PostgreSQL (persistent)
@@ -411,7 +414,7 @@ git push origin feature/new-feature
 
 # Create Pull Request on GitHub
 # GitHub Actions runs tests automatically
-# Merge when tests pass ✅
+# Merge when tests pass
 ```
 
 ### Updating Dependencies
