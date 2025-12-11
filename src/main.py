@@ -30,7 +30,7 @@ sentiment_analyzer = pipeline(
 print("Model loaded!")
 
 class TextRequest(BaseModel):
-    text: str = Field(..., min_length=1, max_length=512, 
+    text: str = Field(..., min_length=1, max_length=512,
                      example="I love this product!")
 
 class SentimentResponse(BaseModel):
@@ -38,7 +38,19 @@ class SentimentResponse(BaseModel):
     sentiment: str
     confidence: float
     processing_time_ms: int
-    cached: bool = False  # ← ADD THIS LINE
+    cached: bool = False
+
+class HistoryItem(BaseModel):
+    id: int
+    text: str
+    sentiment: str
+    confidence: float
+    processing_time_ms: int
+    created_at: str
+
+class HistoryResponse(BaseModel):
+    total: int
+    analyses: list[HistoryItem]
 
 @app.get("/")
 def root():
@@ -115,6 +127,43 @@ def analyze_sentiment(
 def health():
     """Kubernetes-style health check"""
     return {"status": "ok"}
+
+@app.get("/history", response_model=HistoryResponse)
+def get_history(
+    limit: int = 10,
+    db: Session = Depends(get_db)
+):
+    """
+    Get sentiment analysis history from database
+
+    Returns recent analyses ordered by creation date (newest first)
+    """
+    try:
+        # Get total count
+        total = db.query(SentimentAnalysis).count()
+
+        # Get recent analyses
+        analyses = db.query(SentimentAnalysis)\
+            .order_by(SentimentAnalysis.created_at.desc())\
+            .limit(limit)\
+            .all()
+
+        # Convert to response format
+        history_items = [
+            HistoryItem(
+                id=a.id,
+                text=a.text,
+                sentiment=a.sentiment,
+                confidence=a.confidence,
+                processing_time_ms=a.processing_time_ms,
+                created_at=a.created_at.isoformat()
+            )
+            for a in analyses
+        ]
+
+        return HistoryResponse(total=total, analyses=history_items)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/cache/stats")
 def get_cache_statistics():
