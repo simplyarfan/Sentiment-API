@@ -1,12 +1,3 @@
----
-title: Sentiment Analysis API
-emoji: 🎭
-colorFrom: blue
-colorTo: purple
-sdk: docker
-app_port: 7860
----
-
 # Sentiment Analysis API
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-brightgreen?style=for-the-badge&logo=github)](https://simplyarfan.github.io/Sentiment-API/)
