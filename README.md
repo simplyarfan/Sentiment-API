@@ -1,3 +1,12 @@
+---
+title: Sentiment Analysis API
+emoji: 🎭
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_port: 7860
+---
+
 # Sentiment Analysis API
 
 ![Tests](https://github.com/simplyarfan/sentiment-api/actions/workflows/test.yml/badge.svg)

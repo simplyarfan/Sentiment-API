@@ -13,12 +13,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY src/ ./src/
 
-# Document the port (informational)
-EXPOSE 8000
+# HF Spaces requires port 7860
+EXPOSE 7860
 
 # Health check for production monitoring
-HEALTHCHECK --interval=30s --timeout=3s --start-period=40s \
-  CMD curl -f http://localhost:8000/health || exit 1
+HEALTHCHECK --interval=30s --timeout=3s --start-period=60s \
+  CMD curl -f http://localhost:7860/health || exit 1
 
-# Command to run when container starts
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Command to run when container starts (HF Spaces uses port 7860)
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "7860"]
